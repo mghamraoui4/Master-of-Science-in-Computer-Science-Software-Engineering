@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghamraoui Docs | Web Dev Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0d1117; /* GitHub Dark Dimmed */
+            color: #c9d1d9;
+            font-family: 'Fira Code', monospace;
+            overflow: hidden;
+        }
+        
+        /* Scanline effect for CRT vibe */
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(51, 255, 51, 0.04) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 10s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100%; }
+        }
+
+        .typing-cursor::after {
+            content: '█';
+            animation: blink 1s step-start infinite;
+            color: #58a6ff;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .slide-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .slide-content.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0d1117; }
+        ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #58a6ff; }
+
+        .cmd-prompt { color: #7ee787; } /* Green prompt */
+        .cmd-path { color: #79c0ff; }   /* Blue path */
+        .cmd-git { color: #d2a8ff; }    /* Purple git branch */
+    </style>
+</head>
+<body class="h-screen w-full flex items-center justify-center p-4">
+
+    <!-- CRT Effect Overlay -->
+    <div class="scanline"></div>
+
+    <!-- Main Terminal Window -->
+    <div class="w-full max-w-5xl h-[85vh] bg-[#161b22] border border-[#30363d] rounded-lg shadow-2xl flex flex-col overflow-hidden relative">
+        
+        <!-- Terminal Header -->
+        <div class="bg-[#010409] border-b border-[#30363d] p-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
+                <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
+                <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
+            </div>
+            <div class="text-xs text-[#8b949e] font-mono">ghamraoui@devops: ~/presentations/web-intro</div>
+            <div class="text-xs text-[#8b949e]">bash</div>
+        </div>
+
+        <!-- Terminal Content Area -->
+        <div class="flex-1 p-6 overflow-y-auto relative" id="terminal-body">
+            
+            <!-- Output Log (History) -->
+            <div id="output-log" class="mb-4 text-sm text-[#8b949e]">
+                Last login: <span id="current-date"></span> on ttys001<br>
+                Type "help" for instructions.<br><br>
+            </div>
+
+            <!-- Slides Container -->
+            <div class="relative z-10">
+                
+                <!-- SLIDE 1: INTRO & BIO (Combined to save space) -->
+                <div id="slide-0" class="slide-content active">
+                    <div class="mb-2">
+                        <span class="cmd-prompt">ghamraoui@devops</span>:<span class="cmd-path">~</span>$ <span class="text-white">./init_presentation.sh --user=ghamraoui</span>
+                    </div>
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Left: Title -->
+                        <div class="md:col-span-2 border border-[#30363d] bg-[#0d1117] p-8 rounded shadow-lg">
+                            <h1 class="text-4xl font-bold text-[#58a6ff] mb-2">Introduction to Web Development</h1>
+                            <p class="text-xl text-[#8b949e] mb-6">// Architecture, Tools & The "Why"</p>
+                            
+                            <div class="mt-8 bg-[#161b22] p-4 rounded text-[#8b949e] italic border-l-4 border-[#58a6ff]">
+                                "Welcome to my terminal. The goal today is not to copy-paste, but to learn <strong>how</strong> to learn."
+                            </div>
+                        </div>
+
+                        <!-- Right: WhoAmI Profile -->
+                        <div class="border border-[#30363d] bg-[#161b22] p-4 rounded flex flex-col justify-center">
+                            <h3 class="text-[#7ee787] font-bold mb-3 border-b border-[#30363d] pb-2">User Profile</h3>
+                            <ul class="text-sm space-y-2">
+                                <li><span class="text-[#58a6ff]">Name:</span> M. GHAMRAOUI</li>
+                                <li><span class="text-[#58a6ff]">Background:</span> Networks & Telecoms</li>
+                                <li><span class="text-[#58a6ff]">Role:</span> Help Desk ➜ Full Stack Dev</li>
+                                <li><span class="text-[#58a6ff]">Goal:</span> Automate Everything</li>
+                            </ul>
+                            <div class="mt-4 text-xs text-[#8b949e]">
+                                <span class="block mb-1">> Loading modules...</span>
+                                <span class="block text-[#238636]">Done.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDE 2: HOW IT WORKS -->
+                <div id="slide-1" class="slide-content">
+                    <div class="mb-2">
+                        <span class="cmd-prompt">ghamraoui@devops</span>:<span class="cmd-path">~</span>$ <span class="text-white">cat /docs/how_web_works.json</span>
+                    </div>
+                    <div class="mt-6 border border-[#30363d] bg-[#0d1117] p-6 rounded">
+                        <h2 class="text-2xl text-[#58a6ff] mb-6">1. How does the Web work?</h2>
+                        
+                        <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-center">
+                            
+                            <!-- Client -->
+                            <div class="flex-1 p-4 border border-[#30363d] rounded hover:border-[#7ee787] transition-colors">
+                                <div class="text-4xl mb-2">💻</div>
+                                <h3 class="font-bold text-[#7ee787]">Client (Browser)</h3>
+                                <p class="text-xs text-[#8b949e] mt-2">Sends a <strong>Request</strong><br>(Like opening a ticket)</p>
+                            </div>
+
+                            <!-- Arrows -->
+                            <div class="flex-0 text-[#8b949e] font-mono text-xs">
+                                <div>HTTP/HTTPS ➜</div>
+                                <div class="my-2">DNS (The Phonebook)</div>
+                                <div>⬅ Response</div>
+                            </div>
+
+                            <!-- Server -->
+                            <div class="flex-1 p-4 border border-[#30363d] rounded hover:border-[#ff7b72] transition-colors">
+                                <div class="text-4xl mb-2">🖥️</div>
+                                <h3 class="font-bold text-[#ff7b72]">Server</h3>
+                                <p class="text-xs text-[#8b949e] mt-2">Processes & Returns files<br>(The Admin fixing the issue)</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 grid grid-cols-3 gap-4 text-center">
+                            <div class="bg-[#1f6feb] text-white p-2 rounded text-sm font-bold">HTML<br><span class="font-normal text-xs opacity-75">Structure</span></div>
+                            <div class="bg-[#d2a8ff] text-white p-2 rounded text-sm font-bold">CSS<br><span class="font-normal text-xs opacity-75">Style</span></div>
+                            <div class="bg-[#e3b341] text-black p-2 rounded text-sm font-bold">JS<br><span class="font-normal text-xs opacity-75">Logic</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDE 3: WHAT DO YOU NEED -->
+                <div id="slide-2" class="slide-content">
+                    <div class="mb-2">
+                        <span class="cmd-prompt">ghamraoui@devops</span>:<span class="cmd-path">~</span>$ <span class="text-white">ls -la ./requirements/</span>
+                    </div>
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        
+                        <!-- Hard Skills -->
+                        <div class="border border-[#30363d] bg-[#0d1117] p-5 rounded">
+                            <h3 class="text-[#7ee787] border-b border-[#30363d] pb-2 mb-3">./Hard_Skills</h3>
+                            <ul class="space-y-3 text-sm">
+                                <li class="flex items-center gap-3">
+                                    <span class="bg-[#238636] w-2 h-2 rounded-full"></span>
+                                    <span><strong>Languages:</strong> HTML, CSS, JavaScript.</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <span class="bg-[#238636] w-2 h-2 rounded-full"></span>
+                                    <span><strong>Editor:</strong> VS Code (My new office).</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <span class="bg-[#238636] w-2 h-2 rounded-full"></span>
+                                    <span><strong>Git/GitHub:</strong> Version Control (Save points).</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Soft Skills -->
+                        <div class="border border-[#30363d] bg-[#0d1117] p-5 rounded">
+                            <h3 class="text-[#d2a8ff] border-b border-[#30363d] pb-2 mb-3">./Soft_Skills (Crucial)</h3>
+                            <ul class="space-y-3 text-sm">
+                                <li class="flex items-center gap-3">
+                                    <span class="bg-[#a371f7] w-2 h-2 rounded-full"></span>
+                                    <span><strong>Learning to Learn:</strong> Research > Memorization.</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <span class="bg-[#a371f7] w-2 h-2 rounded-full"></span>
+                                    <span><strong>Problem Solving:</strong> Mental debugging.</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <span class="bg-[#a371f7] w-2 h-2 rounded-full"></span>
+                                    <span><strong>English:</strong> The universal language of tech.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-[#161b22] text-[#8b949e] text-xs font-mono border-l-2 border-[#d2a8ff]">
+                        > "It is not just about writing code. It is about knowing how to find the answer when things break."
+                    </div>
+                </div>
+
+                <!-- SLIDE 4: WHY WEB DEV? (GITHUB STORY) -->
+                <div id="slide-3" class="slide-content">
+                    <div class="mb-2">
+                        <span class="cmd-prompt">ghamraoui@devops</span>:<span class="cmd-path">~</span>$ <span class="text-white">grep "Motivation" ./README.md</span>
+                    </div>
+                    <div class="mt-6 border border-[#30363d] bg-[#0d1117] p-6 rounded">
+                        <h2 class="text-2xl text-[#d2a8ff] mb-4">3. Why Web Development?</h2>
+                        
+                        <div class="flex flex-col gap-4">
+                            <!-- Background Context -->
+                            <div class="p-3 bg-[#161b22] rounded border-l-2 border-[#ff7b72]">
+                                <h4 class="text-white font-bold text-sm">Background: Networks & Telecoms</h4>
+                                <p class="text-xs text-[#8b949e] mt-1">
+                                    Coming from a Help Desk/Network background, I noticed how many processes were manual and repetitive.
+                                </p>
+                            </div>
+
+                            <!-- The Goal -->
+                            <div class="p-3 bg-[#161b22] rounded border-l-2 border-[#7ee787]">
+                                <h4 class="text-white font-bold text-sm">My Goal: Automation & Optimization</h4>
+                                <p class="text-xs text-[#8b949e] mt-1">
+                                    I chose Web Dev to build tools that solve these operational problems.
+                                </p>
+                            </div>
+
+                            <!-- Concrete Examples (From GitHub) -->
+                            <div class="grid grid-cols-2 gap-4 mt-2">
+                                <div class="border border-[#30363d] p-3 rounded hover:bg-[#161b22] transition">
+                                    <span class="text-[#58a6ff] text-xs font-bold block mb-1">Project: Célia Dashboard</span>
+                                    <p class="text-[10px] text-[#8b949e]">
+                                        A decision support tool for Help Desk agents to centralize failure management.
+                                        <br><em>(React.js / Node.js)</em>
+                                    </p>
+                                </div>
+                                <div class="border border-[#30363d] p-3 rounded hover:bg-[#161b22] transition">
+                                    <span class="text-[#58a6ff] text-xs font-bold block mb-1">Project: Planning Automation</span>
+                                    <p class="text-[10px] text-[#8b949e]">
+                                        Scripting to replace manual scheduling with automated logic.
+                                        <br><em>(Google Apps Script)</em>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDE 5: CONCLUSION -->
+                <div id="slide-4" class="slide-content">
+                    <div class="mb-2">
+                        <span class="cmd-prompt">ghamraoui@devops</span>:<span class="cmd-path">~</span>$ <span class="text-white">exit 0</span>
+                    </div>
+                    <div class="mt-12 flex flex-col items-center justify-center text-center">
+                        <div class="text-[#7ee787] text-6xl mb-6">
+                            <svg class="w-24 h-24 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white mb-4">Presentation Complete.</h2>
+                        <p class="text-xl text-[#8b949e] max-w-lg">
+                            "Web Development allows me to combine legal rigor with technical expertise to build real solutions."
+                        </p>
+                        
+                        <div class="mt-10 p-4 border border-dashed border-[#30363d] rounded text-[#58a6ff]">
+                            Any Questions? <span class="typing-cursor">_</span>
+                        </div>
+
+                        <div class="mt-8 flex gap-4 text-xs text-[#8b949e]">
+                            <span><i class="fas fa-link"></i> github.com/mghamraoui4</span>
+                            <span><i class="fas fa-envelope"></i> mohamed.ghamraoui@intelcia.com</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer / Input Area -->
+        <div class="h-12 bg-[#0d1117] border-t border-[#30363d] flex items-center px-4">
+            <span class="text-[#7ee787] mr-2">➜</span>
+            <span class="text-[#8b949e] text-sm">Navigate using [←] [→] Arrows or buttons: </span>
+            <div class="ml-auto flex gap-2">
+                <button onclick="changeSlide(-1)" class="px-3 py-1 bg-[#21262d] hover:bg-[#30363d] rounded text-xs text-[#c9d1d9] border border-[#30363d]">PREV</button>
+                <button onclick="changeSlide(1)" class="px-3 py-1 bg-[#238636] hover:bg-[#2ea043] rounded text-xs text-white border border-[rgba(240,246,252,0.1)]">NEXT</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Init Date
+        document.getElementById('current-date').innerText = new Date().toDateString();
+
+        let currentSlide = 0;
+        const totalSlides = 5; // Reduced to 5 slides
+
+        function updateSlides() {
+            // Hide all
+            for(let i=0; i<totalSlides; i++) {
+                const el = document.getElementById(`slide-${i}`);
+                if(el) {
+                    el.classList.remove('active');
+                }
+            }
+            // Show current
+            const activeEl = document.getElementById(`slide-${currentSlide}`);
+            if(activeEl) activeEl.classList.add('active');
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+            updateSlides();
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            }
+        });
+    </script>
+</body>
+</html>
